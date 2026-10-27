@@ -1,0 +1,426 @@
+<html>
+    <head>
+        <title>Freestream - Stream without Ads, For Good.</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body{
+                margin:0;
+                overflow: hidden;
+                background-color:black;
+                font-family:Interstate;
+            }
+            .navbar {
+                width:100%;
+                height:10%;
+                background-color:rgba(52, 50, 62, 0.50);
+            }
+            .main {
+                width:100%;
+                height:90%;
+                background-color:rgba(50, 42, 104, 0.50);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 5px;
+                gap: 5px;
+            }
+            .playlists {
+                width: 25%;
+                height: 100%;
+                background-color:rgba(119, 131, 152, 0.50);  
+                margin-left: 5px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .song {
+                width: 45%;
+                height: 100%;
+                background-color:rgba(84, 82, 86, 0.50);
+                margin-right: 5px;
+                margin-left: 5px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .next {
+                width: 30%;
+                height: 100%;
+                background-color:rgba(139, 136, 164, 0.50);
+                margin-right: 5px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .current {
+                width: 100%;
+                height: 100%;
+                background-color: rgba(128, 128, 128, 0.500);
+                display: flex;
+                flex-direction: column;
+            }
+            .info {
+                width: 100%;
+                height: 20%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+            .album {
+                display: flex;
+                flex-direction: column;
+                justify-content: cnter;
+                align-items: center;
+                padding: 10px 0;
+            }
+            .detail {
+                width: 100%;
+                background-color:rgba(127, 139, 133, 0.500);
+                color:white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 15px 0;
+            }
+            .detail center {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            .detail p {
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1.2;
+            }
+            .buttons {
+                width: 100%;
+                height: 20%;
+                background-color:aliceblue;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+            }
+            .songName {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0;
+            }
+            .albumName {
+                font-size: 14px;
+                font-weight: 500;
+                margin: 0;
+            }
+            .artistName {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            .rewind {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .skip {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .rewind img {
+                width: 50px;
+                height: 50px;
+            }
+            .skip img {
+                width: 50px;
+                height: 50px;
+            }
+            .options {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .options img {
+                width: 50px;
+                height: 50px;
+            }
+            .lyrics { 
+                width:75%;
+                height:100%;
+                background-color:red;
+            }
+            .rymInfo {
+                width:25%;
+                height:100%;
+                background-color:pink;
+            }
+            button {
+                border:0px;
+                background-color:rgba(255, 255, 255, 0);
+                animation-name:transitionUndo;
+                animation-duration:0.2s;
+                filter:brightness(1);
+            }
+            button:hover {
+                cursor:pointer;
+                animation-name:transitionAnimation;
+                animation-duration:0.2s;
+                filter:brightness(1.75);
+            }
+            @keyframes transitionAnimation {
+                0% {filter:brightness(1);}
+                100% {filter:brightness(1.75);}
+            }
+            @keyframes transitionUndo {
+                0% {filter:brightness(1.75);}
+                100% {filter:brightness(1.00);}
+            }
+            audio {
+                overlay:hidden;
+            }
+            .progressBar {
+                background-color: gainsboro;
+                display:flex;
+                flex-grow: 1;
+                cursor:pointer;
+                border-radius:10px;
+                align-items: center;
+                justify-content: flex-start;
+                height:14px;
+            }
+            .bar {
+                width:0%;
+                height:12px;
+                background:black;
+                border-radius:10px;
+                cursor:pointer;
+            }
+            .playImage {
+                width: 50px;
+                height: 50px;
+            }
+            .playButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .progress {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 90%;
+                gap: 10px;
+            }
+            .timeText {
+                font-size: 14px;
+                font-weight: 500;
+                color: white;
+                font-family: Interstate;
+                min-width: 35px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar">
+
+        </div>
+        <div class="main">
+            <div class="playlists">
+
+            </div>
+            <div class="song">
+                <div class="current">
+                    <div class="album">
+                        <center>
+                        <img src="database/Matthew Good Band/The Audio of Being/album-cover.png" width="300px" height="300px">
+                        <audio id="currentAudio">
+                            <source src="database/Matthew Good Band/The Audio of Being/Tripoli/song.mp3" type="audio/mpeg">
+                        </audio>
+                        </center>
+                    </div>
+                    <div class="detail">
+                        <center>
+                        <div class="songName">
+                            <p>Tripoli</p>
+                        </div>
+                        <div class="albumName">
+                            <p>The Audio of Being</p>
+                        </div>
+                        <div class="artistName">
+                            <p>Matthew Good Band</p>
+                        </div>
+                        <div class="progress">
+                            <span class="timeText" id="currentTime">0:00</span>
+                            <div class="progressBar" id="progressBar">
+                                <div class="bar" id="bar"></div>
+                            </div>
+                            <span class="timeText" id="totalTime">0:00</span>
+                        </div>
+                        </center>
+                    </div>
+                    <div class="buttons">
+                        <div class="rewind">
+                            <img src="rewind.png" width="100px" height="100px">
+                        </div>
+                        <button class="playButton" id="playButton" onclick="changePlay()">
+                            <div class="play">
+                                <img class="playImage" id="playImage" src="pause.png" width="100px" height="100px">
+                            </div>
+                        </button>
+                        <div class="skip">
+                            <img src="skip.png" width="100px" height="100px">
+                        </div>
+                        <div class="options">
+                            <img src="menu.png" width="100px" height="100px">
+                        </div>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="lyrics">
+                        <p id="lyrics"></p>
+                    </div>
+                    <div class="rymInfo">
+                        <center>
+                        <div class="songRating">
+                            <p id="songRating">4.14</p>
+                        </div>
+                        <div class="albumRating">
+                            <p id="albumRating">3.61</p>
+                        </div>
+                        <div class="albumTags">
+                            <p id="albumTags">alternative rock, singer-songwriter, art rock</p>
+                        </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div class="next">
+
+            </div>
+        </div>
+        <script>
+            const songDatabase = [  ["Matthew Good Band","The Audio of Being","Tripoli"],
+                                    ["JJ72","JJ72","Oxygen"],
+                                    ["Kashmir","Trespassers","Pursuit of Misery"],
+                                    ["MJ Lenderman","Manning Fireworks","On My Knees"],
+                                    ["Beck","Sea Change","The Golden Age"],
+                                    ["Weezer","Pinkerton","Why Bother?"],
+                                    ["Coldplay","X&Y","Twisted Logic"],
+                                    ["Pavement","Brighten the Corners","Stereo"],
+                                    ["Starflyer 59","Silver","The Zenith"],
+                                    ["The Verve","Urban Hymns","Space and Time"],
+                                    ["HUM","You'd Prefer An Astronaut","Little Dipper"],
+                                    ["Toad the Wet Sprocket","fear","All I Want"],
+                                    ["Grandaddy","Under the Western Freeway","A.M. 180"],
+                                    ["Toadies","Rubberneck","Tyler"],
+                                    ["Doves","Some Cities","Black and White Town"],
+                                    ["Neutral Milk Hotel","In the Aeroplane Over the Sea","In the Aeroplane Over the Sea"],
+                                    ["12 Rods","Lost Time","Twenty Four Hours Ago"],
+                                    ["Built to Spill","Keep It Like a Secret","Carry the Zero"],
+                                    ["Lift to Experience","The Texas-Jerusalem Crossroads","Just As Was Told"],
+                                    ["Car Seat Headrest","Twin Fantasy (Mirror to Mirror)","Bodys"],
+                                    ["Dinosaur Jr.","You're Living All Over Me","In a Jar"],
+                                    ["Songs: Ohia","The Magnolia Electric Co.","Peoria Lunch Box Blues"]];
+            document.getElementById("currentAudio").addEventListener("ended", nextSong);
+            document.getElementById("currentAudio").addEventListener("timeupdate", updateBar);
+            document.getElementById("progressBar").addEventListener("click",findTime);
+            document.getElementById("currentAudio").addEventListener("loadedmetadata",updateTime);
+            const image = document.getElementById("playImage");
+            const audio = document.getElementById("currentAudio");
+            const currentTime = document.getElementById("currentTime");
+            const totalTime = document.getElementById("totalTime");
+
+            var queue = [];
+            var currentSong = null;
+            function getSong(database) {
+                const filtered = database.filter(song => {
+                    if (currentSong && song[0] === currentSong[0] && song[2] === currentSong[2]) return false;
+                    const inQueue = queue.some(qSong => qSong[0] === song[0] && qSong[2] === song[2]);
+                    return !inQueue;
+                });
+
+                return filtered[Math.floor(Math.random() * filtered.length)];
+            }
+            function createQueue(database) {
+                queue = [];
+                while (queue.length < 10) {
+                    queue.push(getSong(database));
+                }
+                console.log("QUEUE!", queue);
+            }
+            function timeFormat(seconds) {
+                if (isNaN(seconds)) return "0:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return mins + ":" + (secs < 10 ? "0" : "") + secs;
+            }
+            function changePlay() {
+                if (image.src.includes("pause.png")){
+                    image.src = "play.png";
+                    audio.play();
+                } else {
+                    image.src = "pause.png";
+                    audio.pause();
+                }
+                
+            }
+            function nextSong() {
+                console.log("Next song!");
+
+                if (queue.length === 0) {
+                    createQueue(songDatabase);
+                }
+                currentSong = queue.shift();
+                queue.push(getSong(songDatabase));
+                console.log(`Playing ${currentSong[2]}, from ${currentSong[1]} by ${currentSong[0]}`);
+                console.log("Queue:", queue);
+
+                document.querySelector(".songName p").textContent = currentSong[2];
+                document.querySelector(".albumName p").textContent = currentSong[1];
+                document.querySelector(".artistName p").textContent = currentSong[0];
+
+                const folderSong = nameFormat(currentSong[2]);
+                const folderAlbum = nameFormat(currentSong[1]);
+                const folderArtist = nameFormat(currentSong[0]);
+
+                document.querySelector(".album img").src = `database/${folderArtist}/${folderAlbum}/album-cover.png`;
+                audio.src = `database/${folderArtist}/${folderAlbum}/${folderSong}/song.mp3`
+
+                audio.currentTime = 0;
+                document.getElementById("bar").style.width = "0%";
+                currentTime.textContent = "0:00";
+                changePlay();
+                audio.play();
+                image.src = "play.png";
+            }
+
+            function updateBar() {
+                var bar = document.getElementById("bar");
+
+                if (audio.duration) {
+                    const percentage = (audio.currentTime / audio.duration) * 100;
+                    bar.style.width = percentage + "%";
+                    currentTime.textContent = timeFormat(audio.currentTime);
+                }
+            }
+
+            function updateTime() {
+                totalTime.textContent = timeFormat(audio.duration);
+            }
+
+            function findTime(e) {
+                const rect = document.getElementById("progressBar").getBoundingClientRect();
+                const clickPositionX = e.clientX - rect.left;
+                const width = rect.width;
+                const clickPercentage = clickPositionX / width;
+                audio.currentTime = clickPercentage * audio.duration;
+            }
+            function nameFormat(name) {
+                return name.replace(/[:.?]/g, "");
+            }
+            createQueue(songDatabase);
+        </script>
+    </body>
+</html>
